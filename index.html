@@ -33,11 +33,12 @@
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="main-menu">
         <ul>
             <li><a href="/oauth2/authorize.html" data-page="/oauth2/authorize.html">Authorize</a></li>
             <li><a href="/api/1.html" data-page="/api/1.html">API</a></li>
             <li><a href="/Admin/m2.html" data-page="/Admin/m2.html">Admin</a></li>
+            <li><a href="/health.html" data-page="/health.html">Health</a></li>
         </ul>
     </nav>
 
@@ -50,6 +51,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const contentDiv = document.getElementById('content');
             const menuLinks = document.querySelectorAll('nav a');
+            const mainMenu = document.getElementById('main-menu');
 
             function loadPage(url) {
                 fetch(url)
@@ -57,6 +59,7 @@
                     .then(html => {
                         contentDiv.innerHTML = html;
                         history.pushState({page: url}, '', url);
+                        mainMenu.style.display = 'none'; // Hide the menu
                     })
                     .catch(error => {
                         console.error('Error loading page:', error);
@@ -76,6 +79,10 @@
             window.addEventListener('popstate', (e) => {
                 if (e.state && e.state.page) {
                     loadPage(e.state.page);
+                } else {
+                    // If we're back on the main page, show the menu
+                    mainMenu.style.display = 'block';
+                    contentDiv.innerHTML = '<h1>Welcome to the Main Page</h1><p>Click on a menu item to load its content.</p>';
                 }
             });
 
