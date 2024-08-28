@@ -35,8 +35,9 @@
 <body>
     <nav>
         <ul>
-            <li><a href="#" data-page="/oauth2/authorize.html">Authorize</a></li>
-            <li><a href="#" data-page="/api/saturnv.html">Saturn V</a></li>
+            <li><a href="/oauth2/authorize.html" data-page="/oauth2/authorize.html">Authorize</a></li>
+            <li><a href="/api/1.html" data-page="/api/1.html">API</a></li>
+            <li><a href="/Admin/m2.html" data-page="/Admin/m2.html">Admin</a></li>
         </ul>
     </nav>
 
@@ -50,21 +51,39 @@
             const contentDiv = document.getElementById('content');
             const menuLinks = document.querySelectorAll('nav a');
 
+            function loadPage(url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        contentDiv.innerHTML = html;
+                        history.pushState({page: url}, '', url);
+                    })
+                    .catch(error => {
+                        console.error('Error loading page:', error);
+                        contentDiv.innerHTML = '<p>Error loading page. Please try again.</p>';
+                    });
+            }
+
             menuLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const page = e.target.getAttribute('data-page');
-                    fetch(page)
-                        .then(response => response.text())
-                        .then(html => {
-                            contentDiv.innerHTML = html;
-                        })
-                        .catch(error => {
-                            console.error('Error loading page:', error);
-                            contentDiv.innerHTML = '<p>Error loading page. Please try again.</p>';
-                        });
+                    loadPage(page);
                 });
             });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', (e) => {
+                if (e.state && e.state.page) {
+                    loadPage(e.state.page);
+                }
+            });
+
+            // Load the correct page on initial load
+            const initialPage = window.location.pathname;
+            if (initialPage !== '/') {
+                loadPage(initialPage);
+            }
         });
     </script>
 </body>
