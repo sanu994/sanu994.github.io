@@ -1,27 +1,71 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Root Page</title>
+    <title>Main Page with Menu</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            line-height: 1.6;
             margin: 0;
-            background-color: #f0f0f0;
+            padding: 20px;
         }
-        h1 {
+        nav {
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
             color: #333;
+        }
+        #content {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>root page.</h1>
+    <nav>
+        <ul>
+            <li><a href="#" data-page="/oauth2/authorize.html">Authorize</a></li>
+            <li><a href="#" data-page="/api/saturnv.html">Saturn V</a></li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <h1>Welcome to the Main Page</h1>
+        <p>Click on a menu item to load its content.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentDiv = document.getElementById('content');
+            const menuLinks = document.querySelectorAll('nav a');
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.getAttribute('data-page');
+                    fetch(page)
+                        .then(response => response.text())
+                        .then(html => {
+                            contentDiv.innerHTML = html;
+                        })
+                        .catch(error => {
+                            console.error('Error loading page:', error);
+                            contentDiv.innerHTML = '<p>Error loading page. Please try again.</p>';
+                        });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
