@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Health Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .metric {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .metric h2 {
+            margin-top: 0;
+            color: #444;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .good {
+            color: green;
+        }
+        .warning {
+            color: orange;
+        }
+        .critical {
+            color: red;
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Server Health Status</h1>
+        
+        <div class="metric">
+            <h2>CPU Usage</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 65%; background-color: #ffa500;">65%</div>
+            </div>
+            <p>Current usage: <span class="status warning">65%</span></p>
+        </div>
+        
+        <div class="metric">
+            <h2>Memory Usage</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%; background-color: #4caf50;">40%</div>
+            </div>
+            <p>8GB / 20GB used</p>
+        </div>
+        
+        <div class="metric">
+            <h2>Disk Space</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 85%; background-color: #f44336;">85%</div>
+            </div>
+            <p>850GB / 1000GB used</p>
+        </div>
+        
+        <div class="metric">
+            <h2>Network</h2>
+            <p>Incoming: <span class="status good">50 Mbps</span></p>
+            <p>Outgoing: <span class="status good">30 Mbps</span></p>
+        </div>
+        
+        <div class="metric">
+            <h2>Uptime</h2>
+            <p><span class="status good">15 days, 7 hours, 23 minutes</span></p>
+        </div>
+        
+        <div class="metric">
+            <h2>Active Connections</h2>
+            <p>Current: <span class="status good">1,245</span></p>
+        </div>
+    </div>
+
+    <script>
+        // This script would typically fetch real-time data from your server
+        // For now, it just updates the timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('last-updated').textContent = now.toLocaleString();
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000); // Update every minute
+    </script>
+</body>
+</html>
